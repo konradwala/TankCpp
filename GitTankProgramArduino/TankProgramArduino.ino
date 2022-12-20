@@ -10,7 +10,7 @@ const int txPin = 11;
 String command = "";
 float voltageValue = 0;
 
-SoftwareSerial mySerial (rxPin, txPin);
+//SoftwareSerial mySerial (rxPin, txPin);
 
 void setup() {
   pinMode(rxPin,INPUT);
@@ -21,14 +21,17 @@ void setup() {
   pinMode(stepLeft,OUTPUT);
 
   Serial.begin(9600);
-  mySerial.begin(9600);
+  //mySerial.begin(9600);
 }
 
 void loop() {
   if(Serial.available() > 0){
     command = Serial.readStringUntil('\n');
-    mySerial.print(command);
-    Serial.print(command);
+    if(command.equals("ON")){
+      Serial.println("ON");
+    }
+    
+    delay(50);
   }
 
   
