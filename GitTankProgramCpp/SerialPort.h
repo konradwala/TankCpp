@@ -4,11 +4,9 @@
 * This works perfectly
 * LICENSE: MIT
 */
+#pragma once
 
-#ifndef arduino cpp_h
-#define arduino cpp_h
-
-#define ARDUINO_WAIT_TIME 0
+#define ARDUINO_WAIT_TIME 2000
 #define MAX_DATA_LENGTH 255
 
 #include <windows.h>
@@ -30,5 +28,5 @@ public:
     bool isConnected();
     void closeSerial();
 };
-#endif // !SerialPort_hpp
+
 

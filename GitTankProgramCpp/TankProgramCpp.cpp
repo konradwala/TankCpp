@@ -22,7 +22,7 @@ char incomingData[MAX_DATA_LENGTH];
 
 //Control signals for turning on and turning off the led
 //Check arduino code
-char ledON[] = "ON\n";
+char ledON[] = "ON";
 char ledOFF[] = "OFF\n";
 const char *commandF = "F\n";
 const char *commandB = "B\n";
@@ -96,34 +96,34 @@ int main()
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
-			arduino->writeSerialPort(ledON, MAX_DATA_LENGTH);
+			arduino->writeSerialPort(commandF, MAX_DATA_LENGTH);
 			Sleep(10);
-			
+
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
-			arduino->writeSerialPort(ledOFF, MAX_DATA_LENGTH);
-			Sleep(10);
-		
-		}
-		
-		arduino->readSerialPort(incomingData, MAX_DATA_LENGTH);
-		
-		puts(incomingData);
+			arduino->writeSerialPort(commandB, MAX_DATA_LENGTH);
+			//Sleep(100);
 
-		
+		}
+
+		arduino->readSerialPort(incomingData, MAX_DATA_LENGTH);
+
+		//puts(incomingData);
+
+		cout << incomingData << endl;
 
 
 		//START SFML 
-		
+
 
 		window.clear(sf::Color::White);
-		
+
 		window.display();
-		
+
 		//END SFML 
 
-		Sleep(10);
+		//Sleep(100);
 
 	}
 	autoConnect();
