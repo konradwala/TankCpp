@@ -24,7 +24,7 @@ char incomingData[MAX_DATA_LENGTH];
 //Check arduino code
 char ledON[] = "ON";
 char ledOFF[] = "OFF\n";
-const char *commandF = "F\n";
+const char *commandF = "F";
 const char *commandB = "B\n";
 
 //Arduino SerialPort object
@@ -97,7 +97,7 @@ int main()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			arduino->writeSerialPort(commandF, MAX_DATA_LENGTH);
-			Sleep(10);
+			Sleep(100);
 
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
