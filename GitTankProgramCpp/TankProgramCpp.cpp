@@ -1,130 +1,85 @@
-﻿#include <SFML/Graphics.hpp>
+﻿
+#include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
-#include <iostream>
-#include <vector>
 #include "SerialPort.h"
-#include <stdio.h>
-#include <string.h>
-#include <cstdlib>
-#include <regex>
+#include <iostream>
 
+#define DATA_LENGTH 255
 
-int delayTime = 0;
+const char* portName = "\\\\.\\COM10";
 
-using namespace std;
+//Declare a global object
+SerialPort* arduino;
 
-const char* portName = "\\\\.\\COM3";
+//Here '\n' is a delimiter 
+const char* commandF = "F\n";
+const char* commandB = "B\n";
+const char* commandL = "L\n";
+const char* commandR = "R\n";
+const char* commandN = "N\n";
 
-#define MAX_DATA_LENGTH 255
+std::string presentCommand;
 
 char incomingData[MAX_DATA_LENGTH];
 
-//Control signals for turning on and turning off the led
-//Check arduino code
-char ledON[] = "ON";
-char ledOFF[] = "OFF\n";
-const char *commandF = "F";
-const char *commandB = "B\n";
-
-//Arduino SerialPort object
-SerialPort* arduino;
-
-//Blinking Delay
-const unsigned int BLINKING_DELAY = 1000;
-
-//If you want to send data then define "SEND" else comment it out
-#define SEND
-
-void exampleReceiveData(void)
-{
-	arduino->readSerialPort(incomingData, MAX_DATA_LENGTH);
-	printf("%s", incomingData);
-	Sleep(delayTime);
-}
-
-void exampleWriteData(unsigned int delayTime)
-{
-	arduino->writeSerialPort(ledON, MAX_DATA_LENGTH);
-	Sleep(delayTime);
-	arduino->writeSerialPort(ledOFF, MAX_DATA_LENGTH);
-	Sleep(delayTime);
-}
-
-void autoConnect(void)
-{
-	//better than recusion
-	//avoid stack overflows
-	while (1) {
-		// ui - searching
-		std::cout << "Searching in progress";
-		// wait connection
-		while (!arduino->isConnected()) {
-			//Sleep(1000);
-			std::cout << ".";
-			arduino = new SerialPort(portName);
-		}
-
-		//Checking if arduino is connected or not
-		if (arduino->isConnected()) {
-			std::cout << std::endl << "Connection established at port " << portName << std::endl;
-		}
-
-#ifdef SEND
-		while (arduino->isConnected()) exampleWriteData(BLINKING_DELAY);
-#else // SEND
-		while (arduino->isConnected()) exampleReceiveData();
-#endif // SEND
-	}
-}
-
-
-
-int main()
-{
+int main(void){
 	arduino = new SerialPort(portName);
-	if (arduino->isConnected())
-		cout << "Connection Established" << endl;
-	else
-		cout << "ERROR,check port name ";
-
 	sf::RenderWindow window(sf::VideoMode(1000, 600, 32), "TANK TEST");
+	
 
 	while (arduino->isConnected())
 	{
 		sf::Event event;
 
+		while (window.pollEvent(event))
+		{
+			
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
-			arduino->writeSerialPort(commandF, MAX_DATA_LENGTH);
+			arduino->writeSerialPort(commandF, strlen(commandF));
 			Sleep(100);
 
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
-			arduino->writeSerialPort(commandB, MAX_DATA_LENGTH);
-			//Sleep(100);
+			arduino->writeSerialPort(commandB, strlen(commandB));
+			Sleep(100);
 
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			arduino->writeSerialPort(commandN, strlen(commandN));
+			Sleep(100);
+
+		}
+		if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::G)
+		{
+			std::cout << "pressed" << std::endl;
 		}
 
 		arduino->readSerialPort(incomingData, MAX_DATA_LENGTH);
 
 		//puts(incomingData);
 
-		cout << incomingData << endl;
+		std::cout << incomingData << std::endl;
 
 
 		//START SFML 
 
 
-		window.clear(sf::Color::White);
-
-		window.display();
+		
 
 		//END SFML 
 
 		//Sleep(100);
 
+
+		}
+		window.clear(sf::Color::White);
+
+		window.display();
+
+		
 	}
-	autoConnect();
 }
