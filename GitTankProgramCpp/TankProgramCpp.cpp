@@ -35,27 +35,41 @@ int main(void){
 		while (window.pollEvent(event))
 		{
 			
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&&presentCommand!="forward")
 		{
 			arduino->writeSerialPort(commandF, strlen(commandF));
-			Sleep(100);
+			presentCommand = "forward";
+			//Sleep(100);
 
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && presentCommand != "backward")
 		{
 			arduino->writeSerialPort(commandB, strlen(commandB));
-			Sleep(100);
+			presentCommand = "backward";
+			//Sleep(100);
 
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && presentCommand != "right")
+		{
+			arduino->writeSerialPort(commandR, strlen(commandR));
+			presentCommand = "right";
+			//Sleep(100);
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && presentCommand != "left")
+		{
+			arduino->writeSerialPort(commandL, strlen(commandL));
+			presentCommand = "left";
+			//Sleep(100);
+
+		}
+
+		if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::Up||
+			event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::Left ||
+			event.key.code == sf::Keyboard::Right ))
 		{
 			arduino->writeSerialPort(commandN, strlen(commandN));
-			Sleep(100);
-
-		}
-		if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::G)
-		{
-			std::cout << "pressed" << std::endl;
+			presentCommand = "nothing";
 		}
 
 		arduino->readSerialPort(incomingData, MAX_DATA_LENGTH);

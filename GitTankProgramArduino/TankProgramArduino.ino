@@ -7,6 +7,8 @@ const int stepLeft = 5;
 const int rxPin = 0;
 const int txPin = 1;
 
+const int speed = 2000;
+
 String command;
 float voltageValue = 0;
 
@@ -44,11 +46,11 @@ void loop() {
     
     digitalWrite(stepRight, HIGH);
     digitalWrite(stepLeft, HIGH);
-    delayMicroseconds(1000);
+    delayMicroseconds(speed);
 
     digitalWrite(stepRight, LOW);
     digitalWrite(stepLeft, LOW);
-    delayMicroseconds(1000);
+    delayMicroseconds(speed);
   }
 
   if(command.equals("B")){
@@ -57,11 +59,11 @@ void loop() {
 
     digitalWrite(stepRight, HIGH);
     digitalWrite(stepLeft, HIGH);
-    delayMicroseconds(1000);
+    delayMicroseconds(speed);
 
     digitalWrite(stepRight, LOW);
     digitalWrite(stepLeft, LOW);
-    delayMicroseconds(1000);
+    delayMicroseconds(speed);
   }
 
   if(command.equals("L")){
@@ -70,11 +72,11 @@ void loop() {
 
     digitalWrite(stepRight, HIGH);
     digitalWrite(stepLeft, HIGH);
-    delayMicroseconds(1000);
+    delayMicroseconds(speed);
 
     digitalWrite(stepRight, LOW);
     digitalWrite(stepLeft, LOW);
-    delayMicroseconds(1000);
+    delayMicroseconds(speed);
   }
 
   if(command.equals("R")){
@@ -83,11 +85,11 @@ void loop() {
 
     digitalWrite(stepRight, HIGH);
     digitalWrite(stepLeft, HIGH);
-    delayMicroseconds(1000);
+    delayMicroseconds(speed);
 
     digitalWrite(stepRight, LOW);
     digitalWrite(stepLeft, LOW);
-    delayMicroseconds(1000);
+    delayMicroseconds(speed);
   }
 
   //command = "";
