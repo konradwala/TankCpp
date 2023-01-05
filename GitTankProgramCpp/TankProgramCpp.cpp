@@ -3,14 +3,18 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include "SerialPort.h"
+#include "Tank.h"
+#include "Joystick.h"
 #include <iostream>
 
 #define DATA_LENGTH 255
 
-const char* portName = "\\\\.\\COM10";
+const char* portNameTank = "\\\\.\\COM10";
+const char* portNameTank = "\\\\.\\COM9";
 
 //Declare a global object
-SerialPort* arduino;
+SerialPort* ArduinoTank;
+SerialPort* ArduinoJoystick;
 
 //Here '\n' is a delimiter 
 const char* commandF = "F\n";
@@ -24,11 +28,11 @@ std::string presentCommand;
 char incomingData[MAX_DATA_LENGTH];
 
 int main(void){
-	arduino = new SerialPort(portName);
+	ArduinoTank = new SerialPort(portNameTank);
 	sf::RenderWindow window(sf::VideoMode(1000, 600, 32), "TANK TEST");
 	
 
-	while (arduino->isConnected())
+	while (ArduinoTank->isConnected())
 	{
 		sf::Event event;
 
@@ -37,28 +41,28 @@ int main(void){
 			
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&&presentCommand!="forward")
 		{
-			arduino->writeSerialPort(commandF, strlen(commandF));
+			ArduinoTank->writeSerialPort(commandF, strlen(commandF));
 			presentCommand = "forward";
 			//Sleep(100);
 
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && presentCommand != "backward")
 		{
-			arduino->writeSerialPort(commandB, strlen(commandB));
+			ArduinoTank->writeSerialPort(commandB, strlen(commandB));
 			presentCommand = "backward";
 			//Sleep(100);
 
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && presentCommand != "right")
 		{
-			arduino->writeSerialPort(commandR, strlen(commandR));
+			ArduinoTank->writeSerialPort(commandR, strlen(commandR));
 			presentCommand = "right";
 			//Sleep(100);
 
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && presentCommand != "left")
 		{
-			arduino->writeSerialPort(commandL, strlen(commandL));
+			ArduinoTank->writeSerialPort(commandL, strlen(commandL));
 			presentCommand = "left";
 			//Sleep(100);
 
@@ -68,11 +72,11 @@ int main(void){
 			event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::Left ||
 			event.key.code == sf::Keyboard::Right ))
 		{
-			arduino->writeSerialPort(commandN, strlen(commandN));
+			ArduinoTank->writeSerialPort(commandN, strlen(commandN));
 			presentCommand = "nothing";
 		}
 
-		arduino->readSerialPort(incomingData, MAX_DATA_LENGTH);
+		ArduinoTank->readSerialPort(incomingData, MAX_DATA_LENGTH);
 
 		//puts(incomingData);
 
