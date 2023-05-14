@@ -7,10 +7,10 @@ const int stepLeft = 5;
 const int rxPin = 0;
 const int txPin = 1;
 
-const int speed = 2000;
+const int speed = 1000;
 
 String command;
-float voltageValue = 0;
+byte voltageValue = 0;
 
 SoftwareSerial mySerial (rxPin, txPin);
 
@@ -28,16 +28,18 @@ void setup() {
 
 
 void loop() {
+  voltageValue = map(analogRead(A1), 0 ,1023 , 0, 25);
+
   if (mySerial.available() > 0){
     command = "";
     command = mySerial.readStringUntil('\n');
-    Serial.println(command);
+    Serial.println(command);    
     mySerial.println(command);
     
     //delay(1000);
   }
-  
-  //voltageValue = map(analogRead(A1), 0 ,1023 , 0, 25);
+  // mySerial.print(voltageValue);
+  //mySerial.print(voltageValue);
   
   if(command.equals("F")){
     digitalWrite(dirRight, HIGH);

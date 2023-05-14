@@ -9,12 +9,12 @@
 
 #define DATA_LENGTH 255
 
-const char* portNameTank = "\\\\.\\COM10";
-const char* portNameTank = "\\\\.\\COM9";
+const char* portNameTank = "\\\\.\\COM5";
+const char* portNameJoystick = "\\\\.\\COM8";
 
 //Declare a global object
 SerialPort* ArduinoTank;
-SerialPort* ArduinoJoystick;
+//SerialPort* ArduinoJoystick;
 
 //Here '\n' is a delimiter 
 const char* commandF = "F\n";
@@ -43,28 +43,28 @@ int main(void){
 		{
 			ArduinoTank->writeSerialPort(commandF, strlen(commandF));
 			presentCommand = "forward";
-			//Sleep(100);
+			Sleep(100);
 
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && presentCommand != "backward")
 		{
 			ArduinoTank->writeSerialPort(commandB, strlen(commandB));
 			presentCommand = "backward";
-			//Sleep(100);
+			Sleep(100);
 
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && presentCommand != "right")
 		{
 			ArduinoTank->writeSerialPort(commandR, strlen(commandR));
 			presentCommand = "right";
-			//Sleep(100);
+			Sleep(100);
 
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && presentCommand != "left")
 		{
 			ArduinoTank->writeSerialPort(commandL, strlen(commandL));
 			presentCommand = "left";
-			//Sleep(100);
+			Sleep(100);
 
 		}
 
@@ -76,7 +76,7 @@ int main(void){
 			presentCommand = "nothing";
 		}
 
-		ArduinoTank->readSerialPort(incomingData, MAX_DATA_LENGTH);
+		ArduinoTank->readSerialPort(incomingData, DATA_LENGTH);
 
 		//puts(incomingData);
 
@@ -100,4 +100,5 @@ int main(void){
 
 		
 	}
+	
 }
