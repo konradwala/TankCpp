@@ -49,13 +49,17 @@ void loop() {
   }
 
   command = command + "-";
-  command = command + analogRead(A0);
+  //command = command + analogRead(A0);
+  command = command + "1024";
   command = command + "-";
-  command = command + analogRead(A1);
+  //command = command + analogRead(A1);
+  command = command + "1024";
   command = command + "-";
-  command = command + analogRead(A2);
+  //command = command + analogRead(A2);
+  command = command + "1024";
   command = command + "-";
-  command = command + analogRead(A3);
+  //command = command + analogRead(A3);
+  command = command + "1024";
 
   Serial.println(command);
 

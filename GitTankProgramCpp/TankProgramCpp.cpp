@@ -10,11 +10,11 @@
 #define DATA_LENGTH 255
 
 const char* portNameTank = "\\\\.\\COM5";
-const char* portNameJoystick = "\\\\.\\COM8";
+
 
 //Declare a global object
 SerialPort* ArduinoTank;
-//SerialPort* ArduinoJoystick;
+Joystick testObiect;
 
 //Here '\n' is a delimiter 
 const char* commandF = "F\n";
@@ -35,6 +35,9 @@ int main(void){
 	while (ArduinoTank->isConnected())
 	{
 		sf::Event event;
+
+		testObiect.execution();
+		Sleep(500);
 
 		while (window.pollEvent(event))
 		{
